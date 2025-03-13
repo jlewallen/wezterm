@@ -1841,11 +1841,13 @@ impl XWindowInner {
         if !self.has_focus.unwrap_or(false) {
             return;
         }
-        self.conn().ime.borrow_mut().update_pos(
-            self.window_id,
-            self.last_cursor_position.min_x() as i16,
-            self.last_cursor_position.max_y() as i16,
-        );
+        if config::configuration().use_ime {
+            self.conn().ime.borrow_mut().update_pos(
+                self.window_id,
+                self.last_cursor_position.min_x() as i16,
+                self.last_cursor_position.max_y() as i16,
+            );
+        }
     }
 
     fn set_icon(&mut self, image: &dyn BitmapImage) {
